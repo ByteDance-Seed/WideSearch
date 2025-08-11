@@ -315,7 +315,7 @@ if __name__ == "__main__":
                     logger.info(f"eval success, instance_id: {result.instance_id}")
             except Exception as e:
                 logger.error(f"eval error: {e}")
-    summary_result_path = (
-        f"{result_save_root}/{model_config_name}_trial_num_{trial_num}_summary.json"
-    )
-    calc_summary_results(tasks=tasks, summary_result_path=summary_result_path)
+        summary_result_path = (
+            f"{result_save_root}/{model_config_name}_trial_num_{trial_num}_summary.json"
+        )
+        calc_summary_results(tasks=tasks, summary_result_path=summary_result_path)
