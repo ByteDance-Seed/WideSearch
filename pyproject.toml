@@ -1,0 +1,23 @@
+[project]
+name = "widesearch"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.12.13",
+    "bs4>=0.0.2",
+    "dataclasses>=0.8",
+    "dateparser>=1.2.1",
+    "loguru>=0.7.3",
+    "openai>=1.90.0",
+    "pandarallel>=1.6.5",
+    "pandas>=2.3.0",
+    "volcengine-python-sdk[ark]>=4.0.1",
+    "scikit-learn",
+    "scipy"
+]
+authors = []
+
+[tool.ruff.lint]
+extend-select = ["I"]
