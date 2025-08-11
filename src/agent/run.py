@@ -77,13 +77,6 @@ class Runner:
                     )
                 )
                 max_steps_summary = True
-            # elif llm_error_counter >= DEFAULT_MAX_ERROR_COUNT:
-            #     last_turn.steps.append(
-            #         UserInputStep(
-            #             user_input="Error is too many times. Please stop invoking the tool immediately and answer the user's question."
-            #         )
-            #     )
-            #     max_steps_summary = True
 
             if last_turn.step_number >= max_steps:
                 last_turn.steps.append(
@@ -107,14 +100,6 @@ class Runner:
 
             # Yield the result of this step
             yield output_action_step
-
-        # handle the case when llm error at last.
-        # Note this action step will not be tracked in the memory.
-        # if break_on_llm_error:
-        #     yield ActionStep(
-        #         step_status=StepStatus.ERROR,
-        #         error_marker=ErrorMarker(message=last_llm_error_message),
-        #     )
 
     @classmethod
     async def run_until_stop(
@@ -325,11 +310,10 @@ class Runner:
 async def run_turn(agent, memory, user_input):
     r = Runner.run(agent, memory=memory, user_input=user_input)
     async for step in r:
-        # print(f"<<< {step}\n")
         logger.debug(f"step: {step}")
 
 
-def extrac_messages_from_memory(memory: MemoryAgent, skip_tools=False):
+def extract_messages_from_memory(memory: MemoryAgent, skip_tools=False):
     def custom_asdict_factory(data):
         def convert_value(obj):
             if isinstance(obj, Enum):
@@ -370,12 +354,4 @@ async def run_single_query(
     logger.info(f"agent running: {agent_name}, model: {model_config_name}.")
     await run_turn(agent, memory, query)
     logger.info(f"agent finished: {agent_name}, model: {model_config_name}.")
-    return extrac_messages_from_memory(memory)
-
-
-if __name__ == "__main__":
-    response = run_single_query("""截止到2024年年底，给我整理一下北京不用指定就能直接刷医保治疗的定点A类医院，他们所在的区域（如朝阳区、海淀区）、具体地址、成立的时间（给出年份即可）和医疗等级（三级/二级），我看下哪儿看病方便。
-    你需要将所有数据合并在一个表格里输出。请以Markdown表格的格式输出整理后的数据，格式为```markdown\n{数据内容}\n```。
-    表格中的列名依次为：医院名称、区域、具体地址、成立时间、医疗等级""")
-
-    print(response)
+    return extract_messages_from_memory(memory)

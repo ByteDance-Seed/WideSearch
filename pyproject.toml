@@ -15,7 +15,9 @@ dependencies = [
     "pandas>=2.3.0",
     "volcengine-python-sdk[ark]>=4.0.1",
     "scikit-learn",
-    "scipy"
+    "scipy",
+    "datasets>=4.0.0",
+    "tenacity>=9.1.2",
 ]
 authors = []
 

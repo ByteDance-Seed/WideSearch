@@ -1,56 +1,19 @@
 # Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
 # SPDX-License-Identifier: MIT
 
-import functools
-import time
-from traceback import format_exc
 from typing import Any, Iterable, List, Optional, Union
 
 from loguru import logger
 from openai import AzureOpenAI
 from openai.types.chat.chat_completion_message import ChatCompletionMessage
+from tenacity import retry, stop_after_attempt, wait_incrementing
 from volcenginesdkarkruntime import Ark
 
 from src.agent.schema import LLMOutputItem, ModelResponse, ToolCall
 from src.utils.config import model_config
 
 
-def retry(func, max_retries=8, init_interval=8):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        retries = 0
-        wait_time = init_interval
-        while retries < max_retries:
-            try:
-                result = func(*args, **kwargs)
-                return result
-            except Exception as e:
-                logger.warning(f"Exception occurred: {e}:\n{format_exc()}")
-                # If error message contains "maximum context length", do not retry
-                if (
-                    hasattr(e, "args")
-                    and e.args
-                    and "maximum context length" in str(e.args[0])
-                ):
-                    logger.warning("Maximum context length exceeded, not retrying.")
-                    break
-                if (
-                    "maximum context length" in str(e)
-                    or "maximum length" in str(e)
-                    or "max message tokens" in str(e)
-                ):
-                    logger.warning("Maximum context length exceeded, not retrying.")
-                    break
-                retries += 1
-                logger.warning(f"Retrying in {wait_time} seconds...")
-                time.sleep(wait_time)
-                wait_time += init_interval  # Increase wait time for each retry
-        raise Exception(f"Function {func.__name__} failed after {max_retries} retries.")
-
-    return wrapper
-
-
-@retry
+@retry(stop=stop_after_attempt(8), wait=wait_incrementing(8, 8))
 def ark_complete(
     base_url: str,
     api_key: Optional[str],
@@ -84,7 +47,7 @@ def ark_complete(
         return None
 
 
-@retry
+@retry(stop=stop_after_attempt(8), wait=wait_incrementing(8, 8))
 def openai_complete(
     base_url: str,
     api_key: Optional[str],
@@ -131,7 +94,7 @@ def openai_complete(
     return message
 
 
-@retry
+@retry(stop=stop_after_attempt(8), wait=wait_incrementing(8, 8))
 def claude_complete(
     base_url: str,
     api_key: Optional[str],
@@ -240,6 +203,8 @@ def llm_completion(
             model_name=model_name,
             **generate_kwargs,
         )
+    else:
+        raise ValueError(f"model_name {model_name} not supported")
 
     return response
 

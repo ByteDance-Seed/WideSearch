@@ -1,6 +1,12 @@
 # Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
 # SPDX-License-Identifier: MIT
 
+"""
+This module provides evaluation functions for the WideSearch dataset.
+
+It includes functions to evaluate single queries and calculate consistency between automatic and human evaluations.
+"""
+
 import traceback
 from copy import deepcopy
 from dataclasses import dataclass
@@ -12,7 +18,6 @@ from loguru import logger
 from pandarallel import pandarallel
 
 from src.evaluation.data_loader import (
-    WideSearchDataLoader,
     WideSearchQuery,
     WideSearchResponse,
 )
@@ -132,21 +137,15 @@ def evaluate_single_query(
                 except Exception:
                     answer_type = None
                     response_type = None
-                answer_df[col] = (
-                    answer_df[col].astype(str)
-                    # .apply(lambda x: preprocess_call(x, "norm_str"))
-                )
-                if (response_type == float and answer_type == int) or (
-                    response_type == int and answer_type == float
+                answer_df[col] = answer_df[col].astype(str)
+                if (response_type is float and answer_type is int) or (
+                    response_type is int and answer_type is float
                 ):
-                    if response_type == int:
+                    if response_type is int:
                         response_df[col] = response_df[col].astype(float)
-                    elif answer_type == int:
+                    elif answer_type is int:
                         answer_df[col] = answer_df[col].astype(float)
-                response_df[col] = (
-                    response_df[col].astype(str)
-                    # .apply(lambda x: preprocess_call(x, "norm_str"))
-                )
+                response_df[col] = response_df[col].astype(str)
             response_df.drop_duplicates(subset=unique_columns, inplace=True)
             answer_df.drop_duplicates(subset=unique_columns, inplace=True)
 
@@ -355,7 +354,7 @@ def evaluatation_consistency(
     df_human = pd.read_csv(human_result_path)
     if set(df_auto.columns) != set(df_human.columns):
         logger.warning(
-            f"auto: {set(df_auto.columns)-set(df_human.columns)}, human: {set(df_human.columns)-set(df_auto.columns)}"
+            f"auto: {set(df_auto.columns) - set(df_human.columns)}, human: {set(df_human.columns) - set(df_auto.columns)}"
         )
 
     score_column_suffix = [
@@ -410,16 +409,3 @@ def evaluatation_consistency(
         )  # pyright: ignore[reportCallIssue]
     consistency_map["mean"] = float(np.mean(list(consistency_map.values())))
     return consistency_map
-
-
-if __name__ == "__main__":
-    data_loader: WideSearchDataLoader = WideSearchDataLoader(
-        "data/all_data/final_wide_search_en_filtered.jsonl",
-        "data/all_data/final_answer_data",
-    )
-    query = data_loader.load_query_by_instance_id("ws_en_001")
-    evaluatation_consistency(
-        query,
-        "data/output/ds-o3_ws_en_001_0_eval_result.csv",
-        "data/output/human_answer.csv",
-    )

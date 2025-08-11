@@ -1,6 +1,21 @@
 # Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
 # SPDX-License-Identifier: MIT
 
+"""
+This module provides data loaders for the WideSearch dataset.
+
+It includes classes to load queries and responses from local files or Hugging Face datasets,
+and to handle the extraction of dataframes from markdown responses.
+
+Example:
+
+```py
+>>> data_loader = WideSearchDataLoaderHF()
+>>> print(data_loader.load_query_by_instance_id("ws_en_001"))
+```
+
+"""
+
 import json
 import os
 import re
@@ -187,8 +202,3 @@ class WideSearchResponseLoader:
         )
         logger.info(f"dump {len(response_list)} responses to {response_path}")
         return
-
-
-if __name__ == "__main__":
-    data_loader = WideSearchDataLoader("data/widesearch.jsonl", "data/answer")
-    print(data_loader.load_query_by_instance_id("coze-021"))

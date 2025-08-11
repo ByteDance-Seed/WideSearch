@@ -54,24 +54,25 @@ def create_sub_agents_wrap(
                 ),
                 new_sub_agents,
             )
+            _sub_agent = None
             try:
-                for sub_agent, result in zip(new_sub_agents, results):
+                for _sub_agent, result in zip(new_sub_agents, results):
                     logger.debug(
-                        f"sub_agent: {sub_agent}, result: {json.dumps(result, ensure_ascii=False)}"
+                        f"sub_agent: {_sub_agent}, result: {json.dumps(result, ensure_ascii=False)}"
                     )
-                    sub_agent.response = result[-1]["content"]["content"]
-                    sub_agent.messages = result
+                    _sub_agent.response = result[-1]["content"]["content"]
+                    _sub_agent.messages = result
             except Exception:
                 logger.error(f"run sub agents error: {traceback.format_exc()}")
-                # return InternalResponse(data=[{"error": f"run sub agents error: {e}"}])
-                sub_agent.response = "sub_agent running error."
-                sub_agent.messages = [
-                    {
-                        "content": {
-                            "content": f"sub_agent running error: {traceback.format_exc()}"
+                if _sub_agent:
+                    _sub_agent.response = "sub_agent running error."
+                    _sub_agent.messages = [
+                        {
+                            "content": {
+                                "content": f"sub_agent running error: {traceback.format_exc()}"
+                            }
                         }
-                    }
-                ]
+                    ]
 
         return InternalResponse(
             data=json.dumps(
