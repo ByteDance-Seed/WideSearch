@@ -23,7 +23,7 @@
 
 
 # WideSearch: Benchmarking Agentic Broad Info-Seeking
-<a href="YOUR_ARXIV_LINK" target="_blank">
+<a href="https://arxiv.org/abs/2508.07999" target="_blank">
     <img src="https://img.shields.io/badge/arXiv-b31b1b.svg?style=for-the-badge&logo=arXiv&logoColor=white"
          alt="arXiv" />
 </a>
