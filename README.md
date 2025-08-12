@@ -91,13 +91,14 @@ This project is licensed under MIT. See the <a href="LICENSE">LICENSE</a> file f
 If you find WideSearch useful for your research and applications, feel free to give us a star ⭐ and cite us using:
 
 ```bibtex
-@Article{XXX,
-      title={WideSearch: Benchmarking Agentic Broad Info-Seeking}, 
-      author={Ryan Wong and Jiawei Wang and Junjie Zhao and Li Chen and Yan Gao and Long Zhang and Xuan Zhou and Zuo Wang and Kai Xiang and Ge Zhang and Wenhao Huang and Yang Wang and Ke Wang},
-      year={2025},
-      eprint={arXiv preprint},
-      archivePrefix={arXiv},
-      primaryClass={cs.XX},
-      url={https://widesearch-seed.github.io/}
+@article{wong2025widesearch,
+  title={WideSearch: Benchmarking Agentic Broad Info-Seeking}, 
+  author={Ryan Wong and Jiawei Wang and Junjie Zhao and Li Chen and Yan Gao and Long Zhang and Xuan Zhou and Zuo Wang and Kai Xiang and Ge Zhang and Wenhao Huang and Yang Wang and Ke Wang},
+  year={2025},
+  eprint={2508.07999},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2508.07999},
+  note={Project Page: [https://widesearch-seed.github.io](https://widesearch-seed.github.io)}
 }
 ```
