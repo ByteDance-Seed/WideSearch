@@ -293,6 +293,7 @@ if __name__ == "__main__":
                     use_cache=args.use_cache,
                     multi_agent=args.multi_agent,
                     tools=tools,
+                    eval_model_config_name=args.eval_model_config_name
                 )
             )
     logger.info(f"total task num: {len(tasks)}")
