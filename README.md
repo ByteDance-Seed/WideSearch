@@ -39,6 +39,7 @@
 ---
 We will release the arxiv paper soon! Stay tuned!
 ## News
+[2026/07/24] Community integration: EvalScope supports running WideSearch against OpenAI-compatible model endpoints with CLI/Python usage, saved predictions, scoring, and standardized reports. See the EvalScope guide: https://evalscope.readthedocs.io/en/latest/third_party/wide_search.html
 [2025/08/11]🔥We release WideSearch Benchmark.
 
 
