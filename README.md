@@ -54,6 +54,10 @@ Current research primarily focuses on "deep" tasks. DeepSearch tackles the "I ca
 
 In sharp contrast, WideSearch tackles the "I could do it, but the sheer volume is overwhelming" problem. It requires agents to systematically find and organize large-scale information into a structured output, shifting the primary challenge from deep search to achieving exhaustiveness and fidelity at scale.
 
+### Related Web-Agent Benchmark
+
+[ClawBench](https://github.com/TIGER-AI-Lab/ClawBench) is a complementary benchmark for evaluating agents on long-horizon, real-world browser tasks across live websites. It emphasizes end-to-end execution, browser actions, network traces, screenshots, and rubric-based evaluation, providing a useful contrast to WideSearch's broad information-seeking focus. See the [project homepage](https://claw-bench.com/) and [paper](https://arxiv.org/abs/2604.08523) for details.
+
 ## Experiments
 We test both single-agent and multi-agent modes, and manually conducted end-to-end testing of the commercial AI system on the web interface. In addition, we randomly select 20 questions and invited human annotators to perform tests. The experiment results are as follows:
 ![experiments](figs/image.png)
